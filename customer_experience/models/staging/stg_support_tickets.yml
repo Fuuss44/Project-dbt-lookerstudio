@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_support_tickets
+    description: Support tickets with resolution flags and satisfaction tracking
+    columns:
+      - name: ticket_id
+        description: Unique ticket identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Link to customer
+      - name: issue_category
+        description: Type of issue reported
+      - name: priority
+        description: Ticket priority level (standardized)
+      - name: submitted_at
+        description: Ticket submission timestamp
+      - name: resolved_at
+        description: Ticket resolution timestamp
+      - name: resolution_status
+        description: Current resolution status
+      - name: resolution_time_hours
+        description: Time to resolve in hours
+      - name: satisfaction_score
+        description: Customer satisfaction rating (1-5)
+      - name: resolution_days
+        description: Days between submission and resolution
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded

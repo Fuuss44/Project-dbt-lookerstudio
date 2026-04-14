@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: fct_customer_orders
+    description: Fact table - enriched transactions with customer and satisfaction context
+    columns:
+      - name: transaction_id
+        description: Unique transaction identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Link to customer
+      - name: product_name
+        description: Product ordered
+      - name: product_category
+        description: Product category
+      - name: transaction_date
+        description: Order date
+      - name: final_price
+        description: Final amount paid (after discount)
+      - name: avg_satisfaction_score
+        description: Customer's average support satisfaction
+      - name: lifetime_value
+        description: Customer's total lifetime spending

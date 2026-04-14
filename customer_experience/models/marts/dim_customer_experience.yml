@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: dim_customer_experience
+    description: Customer dimension with engagement and satisfaction segmentation
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: Customer name
+      - name: state
+        description: Customer state
+      - name: preferred_channel
+        description: Preferred interaction channel
+      - name: lifetime_value
+        description: Total spending
+      - name: order_count
+        description: Total orders
+      - name: avg_satisfaction_score
+        description: Average satisfaction (1-5)
+      - name: customer_segment
+        description: High/Medium/Low value segment
+      - name: satisfaction_level
+        description: Satisfied/Neutral/At Risk

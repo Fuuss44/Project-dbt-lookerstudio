@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: stg_interactions
+    description: Customer interaction events with channel and type standardization
+    columns:
+      - name: interaction_id
+        description: Unique interaction identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Link to customer
+      - name: channel
+        description: Interaction channel (web, mobile, phone, in-store)
+      - name: interaction_type
+        description: Type of interaction (page_view, click, purchase, etc)
+      - name: interaction_date
+        description: Date and time of interaction
+      - name: duration
+        description: Duration of interaction in seconds
+      - name: page_or_product
+        description: Page or product involved in interaction
+      - name: session_id
+        description: Session identifier for grouping events
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded

@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_reviews
+    description: Product reviews with rating standardization
+    columns:
+      - name: review_id
+        description: Unique review identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Link to customer
+      - name: product_name
+        description: Product reviewed
+      - name: product_category
+        description: Product category
+      - name: full_name
+        description: Reviewer name
+      - name: transaction_date
+        description: Original purchase date
+      - name: review_date
+        description: Review submission date
+      - name: rating
+        description: Review rating (1-5 stars)
+      - name: review_title
+        description: Review title
+      - name: review_text
+        description: Full review text content
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded
