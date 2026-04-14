@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw CSV data from Kaggle retail dataset
+    database: null
+    tables:
+      - name: customers
+        description: Customer master data with demographics and contact info
+        
+      - name: transactions
+        description: Transaction history with product and pricing details
+        
+      - name: support_tickets
+        description: Customer support tickets with resolution metrics and satisfaction scores
+        
+      - name: interactions
+        description: Customer interaction events (page views, clicks, etc) - high volume data
+        
+      - name: campaigns
+        description: Marketing campaign performance data
+        
+      - name: customer_reviews_complete
+        description: Customer product reviews with ratings and text

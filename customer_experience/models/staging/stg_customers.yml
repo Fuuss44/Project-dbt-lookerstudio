@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Cleaned customer dimension with standardized demographics and contact info
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: Customer full name
+      - name: age
+        description: Customer age (0 if null)
+      - name: gender
+        description: Customer gender
+      - name: email
+        description: Customer email
+      - name: phone
+        description: Customer phone
+      - name: city
+        description: Customer city
+      - name: state
+        description: Customer state
+      - name: zip_code
+        description: Customer zip code
+      - name: registration_date
+        description: Date customer registered
+      - name: preferred_channel
+        description: Preferred communication channel (standardized)
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded

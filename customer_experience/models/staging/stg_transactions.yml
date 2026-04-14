@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: Cleaned transaction data with validated amounts and discount logic applied
+    columns:
+      - name: transaction_id
+        description: Unique transaction identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Link to customer
+      - name: product_name
+        description: Product name
+      - name: product_category
+        description: Product category
+      - name: quantity
+        description: Order quantity (validated > 0)
+      - name: unit_price
+        description: Unit price (validated >= 0)
+      - name: total_price
+        description: Total price before discount
+      - name: final_price
+        description: Final price after discount applied
+      - name: discount_percent
+        description: Discount percentage applied
+      - name: transaction_date
+        description: Transaction date
+      - name: store_location
+        description: Store location or Online
+      - name: payment_method
+        description: Payment method used
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_product_performance
+    description: Product category aggregated metrics - revenue, volume, ratings
+    columns:
+      - name: product_category
+        description: Product category name
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        description: Total revenue from category sales
+      - name: order_volume
+        description: Number of transactions for category
+      - name: avg_rating
+        description: Average customer rating (1-5 scale)
+      - name: review_count
+        description: Number of reviews for category

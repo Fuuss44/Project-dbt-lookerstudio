@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_campaigns
+    description: Marketing campaign data with performance metrics
+    columns:
+      - name: campaign_id
+        description: Unique campaign identifier
+        tests:
+          - unique
+          - not_null
+      - name: campaign_name
+        description: Campaign name
+      - name: campaign_type
+        description: Type of campaign (digital, email, influencer, etc)
+      - name: start_date
+        description: Campaign start date
+      - name: end_date
+        description: Campaign end date
+      - name: target_segment
+        description: Target customer segment
+      - name: budget
+        description: Campaign budget in dollars
+      - name: impressions
+        description: Number of impressions
+      - name: clicks
+        description: Number of clicks
+      - name: conversions
+        description: Number of conversions
+      - name: conversion_rate
+        description: Conversion rate percentage
+      - name: roi
+        description: Return on investment percentage (can be negative)
+      - name: dbt_loaded_at
+        description: Timestamp when record was loaded

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_customer_metrics
+    description: Customer aggregated metrics - lifetime value, order count, satisfaction
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: lifetime_value
+        description: Total spending by customer
+      - name: order_count
+        description: Total orders placed by customer
+      - name: avg_satisfaction_score
+        description: Average support satisfaction (1-5 scale)
+      - name: total_support_tickets
+        description: Total support tickets filed

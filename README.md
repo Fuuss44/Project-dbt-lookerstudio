@@ -42,29 +42,26 @@ Source data from Kaggle: [Retail Customer and Transaction Dataset](https://www.k
 - Product diversity: 20+ categories tracked
 - Marketing ROI varies from -61% to +558% (profitable and unprofitable campaigns)
 
-## Data Cleaning Strategy (dbt)
+## dbt Pipeline Architecture (3-Layer)
 
-### Staging Layer
-1. stg_customers: Handle missing demographics (age, email ~2%), standardize channels
-2. stg_transactions: Validate prices > 0, manage discount logic, flag invalid records
-3. stg_support_tickets: Create resolution flags, handle missing satisfaction scores (11%)
-4. stg_interactions: Preserve all events, flag missing channel/type fields
-5. stg_campaigns: Minimal transformations, standardize date formats
-6. stg_reviews: Minimal nulls (<3%), flag incomplete reviews
+###  Staging Layer (6 models)
+Raw data cleaning and standardization from CSV sources:
+- **stg_customers**: COALESCE missing demographics, standardize preferred_channel → 'unknown'
+- **stg_transactions**: Calculate final_price with discount logic, validate quantity > 0
+- **stg_support_tickets**: Create is_resolved flag, track resolution_time_hours 
+- **stg_interactions**: Preserve all events (100k rows), include session_id grouping
+- **stg_campaigns**: Pass-through campaigns with ROI pre-calculated
+- **stg_reviews**: Preserve all reviews with ratings (1-5 scale)
 
-### Intermediate Layer
-1. int_customer_metrics: Aggregate revenue, order count, tenure by customer
-2. int_product_performance: Category performance, popularity metrics
-3. int_support_quality: Ticket volume, resolution time, satisfaction by issue type
-4. int_interaction_summary: Session aggregation, engagement scoring
-5. int_customer_satisfaction_risk: Segment at-risk customers
+###  Intermediate Layer (2 models)
+Business logic aggregations for reuse across marts:
+- **int_customer_metrics**: Aggregate by customer_id → lifetime_value, order_count, avg_satisfaction_score
+- **int_product_performance**: Aggregate by product_category → total_revenue, order_volume, avg_rating
 
-### Marts Layer (Analytics-Ready)
-1. fact_customer_orders: Granular transaction table with customer context
-2. fact_support_interactions: Enriched ticket data with customer lifetime value
-3. dim_customer_experience: Customer dimension with segmentation and churn risk
-4. dim_product_performance: Product dimension with category metrics
-5. dim_marketing_campaigns: Campaign performance analysis
+###  Marts Layer (2 models) 
+Analytics-ready denormalized tables for Looker Studio:
+- **fct_customer_orders**: Fact table (32k+ rows) enriched transactions with customer metrics
+- **dim_customer_experience**: Customer dimension with value segments (High/Medium/Low) + satisfaction levels (Satisfied/Neutral/At Risk)
 
 ## KPI Production
 
@@ -88,16 +85,53 @@ All models include automated tests:
 - NULL percentage monitoring
 - Date consistency validation
 
-## Technology Stack
+## Project Status
 
-- Language: SQL (dbt)
-- Data Source: CSV files (local)
-- Transformation Engine: dbt (data build tool)
-- Visualization: Looker Studio
-- Development Environment: Python, Jupyter Notebook for EDA
-- Database Target: PostgreSQL / Redshift compatible SQL
+### Completed 
+- EDA analysis of 6 CSV sources with findings documented in EDA-all.ipynb
+- dbt project initialized with DuckDB adapter
+- CSV seeds loaded into DuckDB via `dbt seed`
+- All 10 models (6 staging + 2 intermediate + 2 marts) built and tested
+- Data quality tests passing (unique, not_null constraints on PKs)
+- Marts tables ready for Looker Studio export
 
-## Project Structure
+### Next Steps
+- Export marts to CSV for Looker Studio import
+- Create interactive dashboards in Looker Studio (KPI, Customer Segments, Product Performance)
+
+## Quick Start Commands
+
+```bash
+# Activate Python environment
+source .venv/Scripts/activate  # (or .venv\Scripts\activate on Windows)
+cd customer_experience
+
+# Build entire pipeline
+dbt run
+
+# Build specific layers
+dbt run --select path:models/staging
+dbt run --select path:models/intermediate
+dbt run --select path:models/marts
+
+# Run data quality tests
+dbt test
+
+# Full pipeline with fresh rebuild
+dbt clean && dbt run && dbt test
+```
+
+## Export to Looker Studio
+
+Export marts from DuckDB to CSV:
+
+```bash
+# Using DuckDB CLI
+duckdb dev.duckdb "SELECT * FROM fct_customer_orders" > fct_customer_orders.csv
+duckdb dev.duckdb "SELECT * FROM dim_customer_experience" > dim_customer_experience.csv
+
+# Then import CSVs into Looker Studio via Google Drive or direct upload
+```
 
 ```
 Project-dbt-lookerstudio/
@@ -153,7 +187,7 @@ dbt debug
 dbt run
 
 # Run only staging layer
-dbt run --select stg_*
+dbt run --select stg_* & path:models/{staging}{intermediate}{mart}
 
 # Execute tests
 dbt test
