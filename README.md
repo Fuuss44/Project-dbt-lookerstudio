@@ -1,6 +1,7 @@
 # Customer Experience Analytics with dbt and Looker Studio
 
 A comprehensive data analytics project designed to analyze customer experience and business performance using dbt for data transformation and Looker Studio for visualization.
+Looker link : https://lookerstudio.google.com/s/hHMoW5CWElA
 
 ## Project Objective
 
